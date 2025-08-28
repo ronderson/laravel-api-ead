@@ -38,4 +38,14 @@ class SupportRepository
         // return auth()->user();
         return User::first();
     }
+
+
+    public function createSupport(array $data): Support
+    {
+        return  $this->getUserAuth()->supports()->create([
+            'lesson_id' => $data['lesson'],
+            'description' => $data['description'],
+            'status' => $data['status'],
+        ]);
+    }
 }
