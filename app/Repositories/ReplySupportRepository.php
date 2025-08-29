@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\ReplySupport;
-use App\Models\Support;
-use App\Models\User;
 use App\Repositories\Traits\RepositoryTrait;
 
 class ReplySupportRepository
@@ -39,7 +37,7 @@ class ReplySupportRepository
 
 
 
-    public function createReplyToSupportId(string $supportId, array $data)
+    public function createReplyToSupport(array $data)
     {
         return $this->entity
             ->replies()

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Support;
-use App\Models\User;
 use App\Repositories\Traits\RepositoryTrait;
 
 class SupportRepository
@@ -16,10 +15,15 @@ class SupportRepository
         $this->entity = $model;
     }
 
+    public function getMySupports(array $filters = [])
+    {
+        $filters['user'] = true;
+        return $this->getSupports($filters);
+    }
+
     public function getSupports(array $filters = [])
     {
-        return $this->getUserAuth()
-            ->supports()
+        return $this->entity
             ->where(function ($query) use ($filters) {
                 if (isset($filters['lesson'])) {
                     $query->where('lesson_id', $filters['lesson']);
@@ -30,6 +34,10 @@ class SupportRepository
                 if (isset($filters['filter'])) {
                     $filter = $filters['filter'];
                     $query->where('description', 'like', "%{$filter}%");
+                }
+                if (isset($filters['user'])) {
+                    $user = $this->getUserAuth();
+                    $query->where('user_id', $user->id);
                 }
             })
             ->orderBy('updated_at')
