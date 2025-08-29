@@ -2,16 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Models\ReplySupport;
 use App\Models\Support;
 use App\Models\User;
 use App\Repositories\Traits\RepositoryTrait;
 
-class SupportRepository
+class ReplySupportRepository
 {
     use RepositoryTrait;
     protected $entity;
 
-    public function __construct(Support $model)
+    public function __construct(ReplySupport $model)
     {
         $this->entity = $model;
     }
@@ -36,27 +37,16 @@ class SupportRepository
             ->get();
     }
 
-    public function createSupport(array $data): Support
-    {
-        return  $this->getUserAuth()->supports()->create([
-            'lesson_id' => $data['lesson'],
-            'description' => $data['description'],
-            'status' => $data['status'],
-        ]);
-    }
+
 
     public function createReplyToSupportId(string $supportId, array $data)
     {
-        return $this->getSupport($supportId)
+        return $this->entity
             ->replies()
             ->create([
+                'support_id' => $data['support'],
                 'description' => $data['description'],
                 'user_id' => $this->getUserAuth()->id,
             ]);
-    }
-
-    public function getSupport(string $supportId): Support
-    {
-        return $this->entity->findOrFail($supportId);
     }
 }
