@@ -8,13 +8,30 @@ use App\Http\Controllers\Api\{
     SupportController
 };
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * @group Auth
+ */
 Route::post('/auth', [AuthController::class, 'auth']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+
+/**
+ * @group Reset Password
+ */
+
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLinkEmail'])
+    ->middleware('guest');
+Route::post('/reset-password/{token}', [ResetPasswordController::class, 'resetPassword'])
+    ->middleware('guest');
+
+
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
