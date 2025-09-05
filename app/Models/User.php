@@ -53,12 +53,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function sendPasswordResetNotification($token) {
+    public function sendPasswordResetNotification($token)
+    {
         $this->notify(new ResetPasswordNotfication($token));
     }
 
     public function supports()
     {
         return $this->hasMany(Support::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
     }
 }
