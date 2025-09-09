@@ -39,12 +39,13 @@ class ReplySupportRepository
 
     public function createReplyToSupport(array $data)
     {
+        $user = $this->getUserAuth();
+
         return $this->entity
-            ->replies()
             ->create([
                 'support_id' => $data['support'],
                 'description' => $data['description'],
-                'user_id' => $this->getUserAuth()->id,
+                'user_id' => $user->id,
             ]);
     }
 }
