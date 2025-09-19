@@ -15,10 +15,10 @@ class CourseRepository
 
     public function getAllCourses()
     {
-        return $this->entity->all();
+        return $this->entity->with('modules.lessons.views')->get();
     }
     public function getCourse(string $identify)
     {
-        return $this->entity->findOrFail($identify)->first();
+        return $this->entity->with('modules.lessons')->findOrFail($identify)->first();
     }
 }

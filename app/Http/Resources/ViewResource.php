@@ -2,12 +2,10 @@
 
 namespace App\Http\Resources;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class ModuleResource extends JsonResource
+class ViewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +14,6 @@ class ModuleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => ucwords(strtolower($this->name)),
-            'lessons' => LessonResource::collection($this->whenLoaded('lessons')),
-        ];
+        return parent::toArray($request);
     }
 }
